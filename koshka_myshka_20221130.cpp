@@ -28,7 +28,7 @@ Rdec2D operator-(const Rdec2D& lhs, const Rdec2D& rhs){
 Rdec2D operator*(const Rdec2D& vec, const double& sca){
 	return {sca * vec.x, sca * vec.y};
 }
-Rdec2D operator*(const double& sca, const Rdec2D& vec){
+Rdec2D operator*(const double& sca, const Rdec2D& vec){ 
 	return {sca * vec.x, sca * vec.y};
 }
 bool operator==(const Rdec2D& lhs, const Rdec2D& rhs){
