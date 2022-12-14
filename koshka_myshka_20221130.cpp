@@ -113,11 +113,12 @@ int catch_attempt(
 	long current_step = -1;*/
 	static int limit = 0;
 	// std::cout << /*std::endl <<  */"############# Catch started! speed to speed: " << norm(cat_speed) / norm(mouse_speed) << ", dt: " << dt << std::endl;
-	if(limit > 40){return 13;} //если плохо сходится, обрубаем исполнение
+	if(limit > 20){return 13;} //если плохо сходится, обрубаем исполнение
 	limit += 1;
 	for (; mouse != cat && mouse.y <= epsilon * 2; t += dt){
 		mouse = mouse + (mouse * (-norm(mouse_speed)/norm(mouse)) + additional_mouse_speed(mode, cat, mouse, dt)) * dt;
 		cat = cat + cat_speed_vector(cat, mouse, norm(cat_speed), cat_speed) * dt;
+	    std::cout << mouse.x << "\t " << mouse.y << "\t " << cat.x << "\t " << cat.y << "\n";
 		if(norm(mouse - cat) < norm((cat_speed - mouse_speed) * dt)){
 		    overflow_norm = std::log10f(norm((cat_speed - mouse_speed) * dt) - norm(mouse - cat));
 		    // std::cout << "Overflow: " << overflow_norm << ", dt magnitude: " << std::log10f(dt) << std::endl;
@@ -134,6 +135,7 @@ int catch_attempt(
 		}*/
 	}
 	/*std::cout << std::endl;*/
+	std::cout << mouse.x << "\t " << mouse.y << "\t " << cat.x << "\t " << cat.y << std::endl;
 	if (norm(mouse) < touch_bound){
 	    /*std::cout << "Yay! ";
 	    std::cout << "t: " << t << ", mouse: " << mouse.x << " " << mouse.y;
@@ -193,7 +195,7 @@ int main(){
 	double higher = norm(mouse_speed) * 2;
 	
 	for(int success = 2; success != 0; rebound(lower, higher, cat_speed, success)){
-	    success = catch_attempt(cat, mouse, mouse_speed, cat_speed, epsilon * std::pow(10,10), "cowardly mouse");
+	    success = catch_attempt(cat, mouse, mouse_speed, cat_speed, epsilon * std::pow(10,10), "classic");
 	    if(higher - lower <= epsilon * 2){
 	        success = 0;
 	    }
