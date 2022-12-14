@@ -1,0 +1,50 @@
+#include <iostream>
+#include <string>
+#include <utility>
+#include <charconv>
+
+int char_to_int(char cur){return cur - '0';}
+
+std::pair<std::string, std::string> ternarize(int num1, int num2){
+	std::string ternary1 = "";
+	std::string ternary2 = "";
+	
+	while(std::max(num1,num2) != 0){
+		ternary1 += std::to_string(num1 % 3);
+		num1 /= 3;
+		ternary2 += std::to_string(num2 % 3);
+		num2 /= 3;
+	}
+	// std::cout << ternary1 << "\n" << ternary2 << std::endl;
+	return std::make_pair(ternary1, ternary2);
+}
+int to_int(std::string ternary){
+    int num = 0;
+    for(int cur_pow = 1; char i : ternary){
+        num += char_to_int(i) * cur_pow;
+        cur_pow *= 3;
+    }
+    return num;
+}
+
+std::string subtract (std::pair<std::string, std::string> p){
+    std::string inv_a = p.first;
+    std::string inv_c = p.second;
+    std::string b = "";
+    for(int i = 0; i < std::max(std::size(inv_a), std::size(inv_c)); i += 1){
+        b += std::to_string((int(inv_c[i]) - int(inv_a[i]) + 6) % 3);
+    }
+    // std::cout << b << std::endl;
+    return b;
+}
+
+int main(){
+
+    int a = 0;
+    int c = 0;
+    std::cin >> a >> c;
+    std::cout << to_int(subtract(ternarize(a,c)));
+    
+    return 0;
+
+}//387420489 225159023
